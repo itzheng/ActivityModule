@@ -1,0 +1,149 @@
+apply plugin: 'com.android.library'
+//全局变量，版本名
+def mVersionCode = 1
+def mVersionName = "0.0.1"
+//上传到bintray 的artifactId 和mLibName无关，和module名有关
+def mLibName = "ActivityModule"
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode mVersionCode
+        versionName mVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+//生成jar文件，但是，如果生成jar文件不如aar使用方便，一些配置都没有
+task makeJar(type: Copy) {
+//    gradlew :test:clean :test:makeJar   //:tset表示lib库名称，这种写法是指定lib库生成jar
+//    或者
+//    gradlew makeJar //这种是将项目中的lib库生成jar。（对项目中的所有有makeJar任务的lib都有效）
+    def jarName = mLibName + "-" + mVersionName + ".jar"
+    delete 'build/libs/' + jarName
+    from('build/intermediates/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename('classes.jar', jarName)
+}
+makeJar.dependsOn(build)
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+}
+
+/** 以下开始是将Android Library上传到jcenter的相关配置**/
+//https://www.cnblogs.com/zyw-205520/p/6502176.html
+//http://blog.csdn.net/linglongxin24/article/details/53415932
+//gradlew install     --->Publishing ————>bintrayUpload
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+//项目主页
+def siteUrl = 'https://github.com/itzheng/ActivityModule'    // project homepage
+//项目的版本控制地址
+def gitUrl = 'https://github.com/itzheng/ActivityModule.git' // project git
+
+//发布到组织名称名字，必须填写
+group = "org.itzheng.android"
+//发布到JCenter上的项目名字，必须填写
+def libName = mLibName
+// 版本号，下次更新是只需要更改版本号即可
+//version = "1.0"
+version = mVersionName
+/**  上面配置后上传至jcenter后的编译路径是这样的： compile 'cn.bluemobi.dylan:sqlitelibrary:1.0'  **/
+
+//生成源文件
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+//生成文档
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.encoding "UTF-8"
+    options.charSet 'UTF-8'
+    options.author true
+    options.version true
+    options.links "https://github.com/itzheng/Modules/tree/master/ble/docs/javadoc"
+    failOnError false
+}
+
+//文档打包成jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+//拷贝javadoc文件
+task copyDoc(type: Copy) {
+    from "${buildDir}/docs/"
+    into "docs"
+}
+
+//上传到jcenter所需要的源码文件
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// 配置maven库，生成POM.xml文件
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                name 'This is BaseActivity or Activity Utils'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'itzheng'
+                        name 'itzheng'
+                        email 'itzheng@zoho.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+//上传到jcenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
+    key = properties.getProperty("bintray.apikey")   //读取 local.properties 文件里面的 bintray.apikey
+    configurations = ['archives']
+    pkg {
+        repo = "andMaven"//到哪个库 默认 Maven
+        name = libName    //发布到JCenter上的项目名字，必须填写
+        desc = 'This is BaseActivity or Activity Utils'    //项目描述
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
