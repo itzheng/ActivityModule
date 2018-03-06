@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 //全局变量，版本名
-def mVersionCode = 1
-def mVersionName = "0.0.1"
+def mVersionCode = 2
+def mVersionName = "0.0.2"
 //上传到bintray 的artifactId 和mLibName无关，和module名有关
 def mLibName = "ActivityModule"
 
