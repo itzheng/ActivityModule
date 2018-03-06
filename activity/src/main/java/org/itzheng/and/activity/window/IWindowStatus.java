@@ -1,15 +1,5 @@
 package org.itzheng.and.activity.window;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-
 /**
  * Title:<br>
  * Description: <br>
@@ -39,6 +29,16 @@ public interface IWindowStatus {
      * @param on
      */
     void setTranslucentStatus(boolean on);
+
+    /**
+     * 设置透明状态栏
+     *
+     * @param on
+     * @param isFullTranslucent 是否是全透明，部分手机有个阴影，如果为true是，需要去除阴影
+     *                          最低支持到APi 21 ，21以下设置无效
+     */
+    void setTranslucentStatus(boolean on, boolean isFullTranslucent);
+
 
     /**
      * 设置底部虚拟返回键为透明

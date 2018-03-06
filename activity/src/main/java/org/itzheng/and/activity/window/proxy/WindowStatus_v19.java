@@ -3,14 +3,11 @@ package org.itzheng.and.activity.window.proxy;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -79,6 +76,12 @@ public class WindowStatus_v19 implements IWindowStatus {
 
     @Override
     public void setTranslucentStatus(boolean on) {
+        //默认全透明
+        setTranslucentStatus(on, true);
+    }
+
+    @Override
+    public void setTranslucentStatus(boolean on, boolean isFullTranslucent) {
         isTranslucentStatus = on;
         mWindowStatus.setTranslucentStatus(on);
         if (on) {

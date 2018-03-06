@@ -1,7 +1,6 @@
 package org.itzheng.and.activity.window.proxy;
 
 import android.app.Activity;
-import android.view.View;
 
 import org.itzheng.and.activity.window.IWindowStatus;
 
@@ -33,6 +32,11 @@ public class WindowStatus_v00 implements IWindowStatus {
 
     @Override
     public void setTranslucentStatus(boolean on) {
+
+    }
+
+    @Override
+    public void setTranslucentStatus(boolean on, boolean isFullTranslucent) {
 
     }
 

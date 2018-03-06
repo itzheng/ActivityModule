@@ -3,7 +3,6 @@ package org.itzheng.and.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import org.itzheng.and.activity.window.IWindowStatus;
 import org.itzheng.and.activity.window.helper.WindowStatusHelper;
@@ -44,6 +43,11 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus {
     @Override
     public void setTranslucentStatus(boolean on) {
         getWindowStatusHelper().setTranslucentStatus(on);
+    }
+
+    @Override
+    public void setTranslucentStatus(boolean on, boolean isFullTranslucent) {
+        getWindowStatusHelper().setTranslucentStatus(on, isFullTranslucent);
     }
 
     @Override
