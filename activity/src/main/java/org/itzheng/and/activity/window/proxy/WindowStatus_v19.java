@@ -132,8 +132,8 @@ public class WindowStatus_v19 implements IWindowStatus {
     }
 
     @Override
-    public boolean isHintNavigation() {
-        return mWindowStatus.isHintNavigation();
+    public boolean isHideNavigation() {
+        return mWindowStatus.isHideNavigation();
     }
 
     @Override
@@ -142,7 +142,7 @@ public class WindowStatus_v19 implements IWindowStatus {
         if (isTranslucentNavigation) {
             return;
         }
-        if (isHintNavigation()) {
+        if (isHideNavigation()) {
             //隐藏虚拟导航栏，有返回
             return;
         }
@@ -226,7 +226,7 @@ public class WindowStatus_v19 implements IWindowStatus {
     private void resetContentPadding() {
         View contentView = getContentView();
         int paddingTop = 0, paddingBottom = 0;
-        if (isTranslucentNavigation || isHintNavigation()) {
+        if (isTranslucentNavigation || isHideNavigation()) {
             paddingBottom = 0;
         } else {
             paddingBottom = getNavigationBarHeight(mActivity);

@@ -71,7 +71,7 @@ public interface IWindowStatus {
      *
      * @return
      */
-    boolean isHintNavigation();
+    boolean isHideNavigation();
 
     /**
      * 设置底部虚拟导航栏的颜色,4.4设置沉浸虚拟导航行栏，会自动设置透明状态栏

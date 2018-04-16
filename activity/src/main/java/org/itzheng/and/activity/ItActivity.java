@@ -66,8 +66,8 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus {
     }
 
     @Override
-    public boolean isHintNavigation() {
-        return getWindowStatusHelper().isHintNavigation();
+    public boolean isHideNavigation() {
+        return getWindowStatusHelper().isHideNavigation();
     }
 
     @Override
@@ -217,7 +217,7 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus {
 //     *
 //     * @return
 //     */
-//    protected boolean isHintNavigation() {
+//    protected boolean isHideNavigation() {
 //        int bits = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 //        View decorView = getWindow().getDecorView();
 //        int systemUiVisibility = decorView.getSystemUiVisibility();

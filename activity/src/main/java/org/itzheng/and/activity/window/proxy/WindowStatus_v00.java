@@ -56,7 +56,7 @@ public class WindowStatus_v00 implements IWindowStatus {
     }
 
     @Override
-    public boolean isHintNavigation() {
+    public boolean isHideNavigation() {
         return false;
     }
 

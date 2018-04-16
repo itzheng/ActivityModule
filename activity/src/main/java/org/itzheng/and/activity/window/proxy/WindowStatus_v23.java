@@ -138,7 +138,7 @@ public class WindowStatus_v23 implements IWindowStatus {
     }
 
     @Override
-    public boolean isHintNavigation() {
+    public boolean isHideNavigation() {
         int bits = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         View decorView = mActivity.getWindow().getDecorView();
         int systemUiVisibility = decorView.getSystemUiVisibility();
