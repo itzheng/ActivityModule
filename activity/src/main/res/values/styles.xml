@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <!--透明主题-->
     <style name="TranslucentTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -7,5 +7,37 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="AnimationAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- 设置activity切换动画 -->
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+    </style>
+    <!-- animation 样式 -->
+    <style name="activityAnimation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+    </style>
+    <!--启动页的主题颜色，设置背景色，打开app就不会有延迟感-->
+    <style name="LauncherTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@android:color/white</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">
+            @android:color/transparent
+        </item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
+        </item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:background">@android:color/holo_blue_bright</item>
     </style>
 </resources>

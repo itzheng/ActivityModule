@@ -1,8 +1,10 @@
 package com.example.activitymodule;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import org.itzheng.and.activity.ItActivity;
 import org.itzheng.and.activity.permissions.IPermissionManager;
@@ -14,7 +16,29 @@ public class MainActivity extends ItActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testPermission();
+        getView(R.id.btnToast).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("nihao");
+                setStatusBarColor(getResources().getColor(android.R.color.holo_red_dark));
+                setStatusBarDarkMode(false);
+            }
+        });
+        getView(R.id.btnPermission).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testPermission();
+                setStatusBarColor(getResources().getColor(android.R.color.holo_blue_light));
+                setStatusBarDarkMode(true);
+            }
+        });
+        getView(R.id.btnKey).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), KeyboardActivity.class));
+            }
+        });
+
     }
 
     private void testPermission() {
@@ -22,11 +46,13 @@ public class MainActivity extends ItActivity {
             @Override
             public void grantPermissions(boolean b, String[] permissions) {
                 Log.i(TAG, "grantPermissions: " + b);
+                showToast("权限已打开");
             }
 
             @Override
             public void denyPermissions(boolean b, String[] permissions) {
                 Log.w(TAG, "denyPermissions: " + b);
+                showToast("权限被拒绝");
             }
         }, Manifest.permission.CAMERA);
     }

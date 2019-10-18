@@ -1,23 +1,23 @@
 package org.itzheng.and.activity;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import org.itzheng.and.activity.permissions.IPermissionManager;
 import org.itzheng.and.activity.permissions.PermissionHelper;
+import org.itzheng.and.activity.ui.keyboard.ISoftInput;
+import org.itzheng.and.activity.ui.keyboard.ItSoftInput;
+import org.itzheng.and.activity.ui.toast.IToast;
+import org.itzheng.and.activity.ui.toast.ItToast;
 import org.itzheng.and.activity.window.IWindowStatus;
 import org.itzheng.and.activity.window.helper.WindowStatusHelper;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Title:<br>
@@ -26,7 +26,7 @@ import java.util.Map;
  * @email ItZheng@ZoHo.com
  * Created by itzheng on 2018-2-1.
  */
-public class ItActivity extends AppCompatActivity implements IWindowStatus {
+public class ItActivity extends AppCompatActivity implements IWindowStatus, IToast, ISoftInput {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,5 +140,106 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus {
     protected void onDestroy() {
         super.onDestroy();
         getPermissionHelper().onDestroy();
+        iToast = null;
+        recycleSoftInput();
+    }
+
+    /**
+     * 使用Toast接口
+     */
+    protected IToast iToast;
+
+    /**
+     * 初始化Toast
+     */
+    protected synchronized void initToast() {
+        if (iToast == null) {
+            iToast = new ItToast(this);
+        }
+    }
+
+    /**
+     * 弹出 toast
+     *
+     * @param resId
+     */
+    @Override
+    public void showToast(int resId) {
+        initToast();
+        iToast.showToast(resId);
+    }
+
+    @Override
+    public void showToast(String string) {
+        initToast();
+        iToast.showToast(string);
+    }
+
+    /**
+     * 方便 findViewById
+     *
+     * @param id
+     * @param <T>
+     * @return
+     */
+    protected <T extends View> T getView(@IdRes int id) {
+        return findViewById(id);
+    }
+
+    /**
+     * 跳转到 Activity
+     *
+     * @param clazz
+     * @param <T>
+     */
+    public <T extends Activity> void startActivity(Class<T> clazz) {
+        Intent intent = new Intent(this, clazz);
+        startActivity(intent);
+    }
+
+    protected ISoftInput iSoftInput;
+
+    /**
+     * 初始化软键盘工具类
+     */
+    protected synchronized void initSoftInput() {
+        if (iSoftInput == null) {
+            iSoftInput = new ItSoftInput(this);
+        }
+    }
+
+    /**
+     * 回收软键盘工具类，避免内存泄漏
+     */
+    private synchronized void recycleSoftInput() {
+        if (iSoftInput != null) {
+            iSoftInput.setOnSoftInputChangedCallback(null);
+            iSoftInput = null;
+        }
+    }
+
+    @Override
+    public void showSoftInput() {
+        initSoftInput();
+        iSoftInput.showSoftInput();
+    }
+
+
+    @Override
+    public void hideSoftInput() {
+        initSoftInput();
+        iSoftInput.hideSoftInput();
+    }
+
+    @Override
+    public boolean isSoftInputShowing() {
+        initSoftInput();
+        return iSoftInput.isSoftInputShowing();
+    }
+
+    @Override
+    public void setOnSoftInputChangedCallback(OnSoftInputChanged callback) {
+        initSoftInput();
+        iSoftInput.setOnSoftInputChangedCallback(callback);
     }
 }
