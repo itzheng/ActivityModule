@@ -14,6 +14,8 @@ import org.itzheng.and.activity.permissions.IPermissionManager;
 import org.itzheng.and.activity.permissions.PermissionHelper;
 import org.itzheng.and.activity.ui.keyboard.ISoftInput;
 import org.itzheng.and.activity.ui.keyboard.ItSoftInput;
+import org.itzheng.and.activity.ui.loading.ILoading;
+import org.itzheng.and.activity.ui.loading.ItLoadingView;
 import org.itzheng.and.activity.ui.toast.IToast;
 import org.itzheng.and.activity.ui.toast.ItToast;
 import org.itzheng.and.activity.window.IWindowStatus;
@@ -26,7 +28,7 @@ import org.itzheng.and.activity.window.helper.WindowStatusHelper;
  * @email ItZheng@ZoHo.com
  * Created by itzheng on 2018-2-1.
  */
-public class ItActivity extends AppCompatActivity implements IWindowStatus, IToast, ISoftInput {
+public class ItActivity extends AppCompatActivity implements IWindowStatus, IToast, ISoftInput, ILoading {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,13 +139,21 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus, IToa
     }
 
     @Override
+    public void finish() {
+        if (iToast != null) {
+            iToast.finish();
+        }
+        super.finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         getPermissionHelper().onDestroy();
         iToast = null;
         recycleSoftInput();
     }
-
+//===================================== Toast ================================
     /**
      * 使用Toast接口
      */
@@ -166,13 +176,17 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus, IToa
     @Override
     public void showToast(int resId) {
         initToast();
-        iToast.showToast(resId);
+        if (iToast != null) {
+            iToast.showToast(resId);
+        }
     }
 
     @Override
     public void showToast(String string) {
         initToast();
-        iToast.showToast(string);
+        if (iToast != null) {
+            iToast.showToast(string);
+        }
     }
 
     /**
@@ -197,6 +211,7 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus, IToa
         startActivity(intent);
     }
 
+    //============================ SoftInput ==============================
     protected ISoftInput iSoftInput;
 
     /**
@@ -221,25 +236,63 @@ public class ItActivity extends AppCompatActivity implements IWindowStatus, IToa
     @Override
     public void showSoftInput() {
         initSoftInput();
-        iSoftInput.showSoftInput();
+        if (iSoftInput != null) {
+            iSoftInput.showSoftInput();
+        }
     }
 
 
     @Override
     public void hideSoftInput() {
         initSoftInput();
-        iSoftInput.hideSoftInput();
+        if (iSoftInput != null) {
+            iSoftInput.hideSoftInput();
+        }
     }
 
     @Override
     public boolean isSoftInputShowing() {
         initSoftInput();
-        return iSoftInput.isSoftInputShowing();
+        return iSoftInput != null && iSoftInput.isSoftInputShowing();
     }
 
     @Override
     public void setOnSoftInputChangedCallback(OnSoftInputChanged callback) {
         initSoftInput();
-        iSoftInput.setOnSoftInputChangedCallback(callback);
+        if (iSoftInput != null) {
+            iSoftInput.setOnSoftInputChangedCallback(callback);
+        }
     }
+
+    //====================================== Loading ================================
+    protected ILoading iLoading;
+
+    protected synchronized void initLoading() {
+        if (iLoading == null) {
+            //如果调用者想改自己的进度样式，只要在 layout 中写名为 it_layout_view_loading 的布局即可。
+            iLoading = ItLoadingView.newInstance(this);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        initLoading();
+        if (iLoading != null) {
+            iLoading.showLoading();
+        }
+    }
+
+    @Override
+    public void dismissLoading() {
+        initLoading();
+        if (iLoading != null) {
+            iLoading.dismissLoading();
+        }
+    }
+
+    @Override
+    public boolean isLoading() {
+        return iLoading != null && iLoading.isLoading();
+    }
+
 }

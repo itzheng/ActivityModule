@@ -11,4 +11,9 @@ public interface IToast {
     void showToast(int resId);
 
     void showToast(String string);
+
+    /**
+     * 如果使用popup，需要手动 finish，如果使用系统的，则无视这个方法
+     */
+    void finish();
 }

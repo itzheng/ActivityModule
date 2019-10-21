@@ -84,6 +84,18 @@ public class ItSwipeBackActivity extends ItActivity implements BGASwipeBackHelpe
         mSwipeBackHelper.swipeBackward();
     }
 
+    /**
+     * 设置滑动返回是否可用。
+     *
+     * @param swipeBackEnable
+     * @return
+     */
+    public void setSwipeBackEnable(boolean swipeBackEnable) {
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.setSwipeBackEnable(swipeBackEnable);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (mSwipeBackHelper != null && mSwipeBackHelper.isSliding()) {

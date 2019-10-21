@@ -65,6 +65,13 @@ public class ItToast implements IToast {
         }
     }
 
+    @Override
+    public void finish() {
+        if (toastPopup != null && toastPopup.isShowing()) {
+            toastPopup.dismiss();
+        }
+    }
+
     /**
      * 在UI线程中执行
      *

@@ -44,6 +44,12 @@ public class MainActivity extends ItActivity {
                 startActivity(SwipeBackActivity.class);
             }
         });
+        getView(R.id.btnLoading).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(LoadingActivity.class);
+            }
+        });
 
     }
 
