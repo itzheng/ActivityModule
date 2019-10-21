@@ -38,6 +38,12 @@ public class MainActivity extends ItActivity {
                 startActivity(new Intent(getApplicationContext(), KeyboardActivity.class));
             }
         });
+        getView(R.id.btnSwipeBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SwipeBackActivity.class);
+            }
+        });
 
     }
 

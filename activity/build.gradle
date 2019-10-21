@@ -41,6 +41,8 @@ makeJar.dependsOn(build)
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    //滑动关闭Activity
+    implementation 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
 }
 
 /** 以下开始是将Android Library上传到jcenter的相关配置**/
