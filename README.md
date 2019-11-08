@@ -18,7 +18,7 @@ allprojects {
 ```groovy
 dependencies {
         
-        compile 'org.itzheng.android:activity:0.0.5'
+        compile 'org.itzheng.android:activity:0.0.6'
         
 }
 ```
