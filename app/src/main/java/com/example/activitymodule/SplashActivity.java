@@ -1,5 +1,7 @@
 package com.example.activitymodule;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,11 +23,11 @@ public class SplashActivity extends org.itzheng.and.activity.SplashActivity {
         boolean fromManifest = isFromManifest(getIntent());
         Log.w(TAG, "onCreate: fromManifest:" + fromManifest);
         if (fromManifest) {
-//            if (MainActivity.isRunning) {
-//                //MainActivity 已经在运行了，就不再执行
-//                finish();
-//                return;
-//            }
+            if (MainActivity.isRunning) {
+                //MainActivity 已经在运行了，就不再执行
+                finish();
+                return;
+            }
 //            App.getInstance().init();
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -33,4 +35,14 @@ public class SplashActivity extends org.itzheng.and.activity.SplashActivity {
             showSplash();
         }
     }
+
+    /**
+     * 启动Splash Activity
+     *
+     * @param context
+     */
+    public static void startActivity(Context context) {
+        startActivity(context, SplashActivity.class);
+    }
+
 }

@@ -11,9 +11,12 @@ import org.itzheng.and.activity.permissions.IPermissionManager;
 
 public class MainActivity extends ItActivity {
     private static final String TAG = "MainActivity";
+    public static boolean isRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isRunning = true;
+        SplashActivity.startActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getView(R.id.btnToast).setOnClickListener(new View.OnClickListener() {
@@ -67,5 +70,11 @@ public class MainActivity extends ItActivity {
                 showToast("权限被拒绝");
             }
         }, Manifest.permission.CAMERA);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isRunning = false;
     }
 }

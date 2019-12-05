@@ -77,8 +77,8 @@ public class SplashActivity extends AppCompatActivity {
      *
      * @param context
      */
-    public static void startActivity(Context context) {
-        Intent intent = new Intent(context, SplashActivity.class);
+    public static <T extends SplashActivity> void startActivity(Context context, Class<T> clazz) {
+        Intent intent = new Intent(context, clazz);
         isFromManifest(intent, false);
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
