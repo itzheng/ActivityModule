@@ -21,7 +21,7 @@ allprojects {
 ```groovy
 dependencies {
         
-       implementation 'com.github.itzheng:ActivityModule:Tag'
+       implementation 'com.github.itzheng:ActivityModule:0.0.7'
 }
 ```
 
